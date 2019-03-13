@@ -19,4 +19,16 @@ public class GameManager : MonoBehaviour {
     }
     private int score;
 
+    public static GameManager instance;  // 싱클톤 생성
+    void Awake()
+    {
+        if (instance)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
+    }
+
+
 }

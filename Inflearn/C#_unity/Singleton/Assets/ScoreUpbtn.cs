@@ -4,10 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class ScoreUpbtn : MonoBehaviour {
-    public GameManager GM; // gameManager 객체 선언후 그 객체 값 증가
     public void upScore()
     {
-        GM.Score += 100;
+        GameManager.instance.Score += 100; // 싱글톤 인스턴스 선언으로 코드 줄임
     }
 
 	
