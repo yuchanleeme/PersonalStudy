@@ -19,7 +19,12 @@ public class GameManager : MonoBehaviour {
     }
     private int score;
 
-    public static GameManager instance;  // 싱클톤 생성
+    private static GameManager instance;  // private 싱클톤 생성
+    public static GameManager Instance    // public 으로 Instance를 만들어 다른 곳에서
+    {                                     // instance값을 못 바꾸게 한다.
+        get {return instance; }  
+    }
+
     void Awake()
     {
         if (instance)
@@ -28,6 +33,8 @@ public class GameManager : MonoBehaviour {
             return;
         }
         instance = this;
+
+        DontDestroyOnLoad(instance); // 다른 씬에서도 사용할 경우
     }
 
 
