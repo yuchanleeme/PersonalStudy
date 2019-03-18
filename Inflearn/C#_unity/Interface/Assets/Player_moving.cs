@@ -11,6 +11,8 @@ public class Player_moving : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+        // 게임 오브젝트 활성화 / 비활성화
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             test_obj.SetActive(false);
@@ -19,5 +21,7 @@ public class Player_moving : MonoBehaviour {
         {
             test_obj.SetActive(true);
         }
+
+
     }
 }
