@@ -15,6 +15,8 @@ public class Box : MonoBehaviour {
         {
             Instantiate(arrowObj).transform.position = shootPosTf.position; // 회전 유지
             //Instantiate(arrowObj, shootPosTf.position, Quaternion.identity); // 회전 없음
+           
+
         }
     }
 }

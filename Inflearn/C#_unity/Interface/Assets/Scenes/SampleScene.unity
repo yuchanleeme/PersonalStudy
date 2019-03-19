@@ -113,11 +113,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &201841312 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1131427821950146, guid: db98474c79998b14cb8b711bdba0ebb0,
-    type: 2}
-  m_PrefabInternal: {fileID: 1065976581}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -369,7 +364,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 824381080}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.24, y: 1.23, z: 0}
+  m_LocalPosition: {x: 1.76, y: 1.77, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1148220729}
@@ -449,7 +444,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &881307601
 BoxCollider2D:
@@ -487,51 +482,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8580471d76e3e9419ac61dc7ab60a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arrowObj: {fileID: 201841312}
+  arrowObj: {fileID: 1131427821950146, guid: db98474c79998b14cb8b711bdba0ebb0, type: 2}
   shootPosTf: {fileID: 824381081}
   shootKey: 32
---- !u!1001 &1065976581
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4526926872778264, guid: db98474c79998b14cb8b711bdba0ebb0, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -7.19
-      objectReference: {fileID: 0}
-    - target: {fileID: 4526926872778264, guid: db98474c79998b14cb8b711bdba0ebb0, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: -3.66
-      objectReference: {fileID: 0}
-    - target: {fileID: 4526926872778264, guid: db98474c79998b14cb8b711bdba0ebb0, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4526926872778264, guid: db98474c79998b14cb8b711bdba0ebb0, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4526926872778264, guid: db98474c79998b14cb8b711bdba0ebb0, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4526926872778264, guid: db98474c79998b14cb8b711bdba0ebb0, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0.25299224
-      objectReference: {fileID: 0}
-    - target: {fileID: 4526926872778264, guid: db98474c79998b14cb8b711bdba0ebb0, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 0.9674684
-      objectReference: {fileID: 0}
-    - target: {fileID: 4526926872778264, guid: db98474c79998b14cb8b711bdba0ebb0, type: 2}
-      propertyPath: m_RootOrder
-      value: 4
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: db98474c79998b14cb8b711bdba0ebb0, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &1148220726
 GameObject:
   m_ObjectHideFlags: 0
@@ -734,4 +687,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d286f8a1a3929e54593ff9747b5e0f7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  test_obj: {fileID: 1148220726}
+  player_obj: {fileID: 1148220726}
