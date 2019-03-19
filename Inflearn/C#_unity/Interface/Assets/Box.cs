@@ -9,11 +9,12 @@ public class Box : MonoBehaviour {
     public KeyCode shootKey;
 
 
-    public void Update()
+    void Update()
     {
         if (Input.GetKeyDown(shootKey))
         {
-            Instantiate(arrowObj, shootPosTf.position, Quaternion.identity);
+            Instantiate(arrowObj).transform.position = shootPosTf.position; // 회전 유지
+            //Instantiate(arrowObj, shootPosTf.position, Quaternion.identity); // 회전 없음
         }
     }
 }
