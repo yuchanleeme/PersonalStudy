@@ -13,7 +13,12 @@ public class Box : MonoBehaviour {
     {
         if (Input.GetKeyDown(shootKey))
         {
-            Instantiate(arrowObj).transform.position = shootPosTf.position; // 회전 유지
+            GameObject tobj = ObjectPoolManager.Instance.ObjectPool.PopObject();  //오브젝트 풀링을 이용
+            tobj.transform.position = shootPosTf.position;
+
+
+
+            //Instantiate(arrowObj).transform.position = shootPosTf.position; // 회전 유지
             //Instantiate(arrowObj, shootPosTf.position, Quaternion.identity); // 회전 없음
            
 
