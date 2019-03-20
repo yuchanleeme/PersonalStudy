@@ -10,7 +10,7 @@ public class PoolableObject : MonoBehaviour
 	{
 		Pool = pool;
 
-		gameObject.SetActive(false);
+        gameObject.SetActive(false);
 	}
 
 	public virtual void Push ()
