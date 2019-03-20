@@ -64,6 +64,7 @@
     <Compile Include="Assets\Arrow.cs" />
     <Compile Include="Assets\Box.cs" />
     <Compile Include="Assets\ObjectPool.cs" />
+    <Compile Include="Assets\ObjectPoolManager.cs" />
     <Compile Include="Assets\Player_moving.cs" />
     <Compile Include="Assets\PoolableObject.cs" />
     <Reference Include="UnityEditor.StandardEvents">

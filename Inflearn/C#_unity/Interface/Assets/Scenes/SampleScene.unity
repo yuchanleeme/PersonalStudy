@@ -615,6 +615,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1318160867}
+  - component: {fileID: 1318160868}
   m_Layer: 0
   m_Name: ObjectPoolManager
   m_TagString: Untagged
@@ -631,10 +632,23 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 2081270295}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1318160868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1318160866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d4345ebadfb56e4c9cc390dc48801ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectPool: {fileID: 2081270294}
 --- !u!1 &1376174487
 GameObject:
   m_ObjectHideFlags: 0
@@ -743,18 +757,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2339bc775ae06fb4198a3706be06866b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  poolObj: {fileID: 0}
-  allocateCount: 0
+  poolObj: {fileID: 114281170363038706, guid: db98474c79998b14cb8b711bdba0ebb0, type: 2}
+  allocateCount: 10
 --- !u!4 &2081270295
 Transform:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2081270293}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -2.1066918, y: -2.7193902, z: 0.078125}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_Father: {fileID: 1318160867}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
