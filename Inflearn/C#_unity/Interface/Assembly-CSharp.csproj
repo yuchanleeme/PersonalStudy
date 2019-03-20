@@ -63,7 +63,9 @@
   <ItemGroup>
     <Compile Include="Assets\Arrow.cs" />
     <Compile Include="Assets\Box.cs" />
+    <Compile Include="Assets\ObjectPool.cs" />
     <Compile Include="Assets\Player_moving.cs" />
+    <Compile Include="Assets\PoolableObject.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>D:/Study_study/Inflearn/C#_unity/Interface/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
