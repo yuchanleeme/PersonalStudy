@@ -758,7 +758,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poolObj: {fileID: 114281170363038706, guid: db98474c79998b14cb8b711bdba0ebb0, type: 2}
-  allocateCount: 10
+  allocateCount: 3
 --- !u!4 &2081270295
 Transform:
   m_ObjectHideFlags: 0
