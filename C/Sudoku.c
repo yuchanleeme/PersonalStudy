@@ -3,9 +3,14 @@
 #include <time.h>
 #include <stdbool.h>
 
-int madeSudoku();
+int madeBaseSudoku();
 bool checkMap(int,int,int);
+void copyMap();
+void makeGame();
+
 int BaseMap[9][9];
+int gameMap[9][9];
+int playerMap[9][9];
 
 bool flag = true;
 
@@ -13,8 +18,11 @@ int main() {
 	srand(time(NULL));
 
 	while(flag){
-		madeSudoku();// making Sudoku
+		madeBaseSudoku();// making Sudoku
 	}
+	copyMap();
+	makeGame();
+
 
 	for(int k=0; k<9 ;k++){ // 배열에 제대로 들어갔나 확인
 		for(int l=0; l<9 ;l++){
@@ -22,10 +30,18 @@ int main() {
 		}
 		printf("\n");
 	}
+printf("===========================\n");
+
+	for(int k=0; k<9 ;k++){ // 배열에 제대로 들어갔나 확인
+		for(int l=0; l<9 ;l++){
+		printf("%d ",playerMap[k][l]);
+		}
+		printf("\n");
+	}
   return 0;
 }
 
-int madeSudoku(){ // BaseMap 을 만드는 함수
+int madeBaseSudoku(){ // BaseMap 을 만드는 함수
 //printf("<5>iRow = %d, iCol= %d ,tempValue = %d\n",iRow,iCol,tempValue);
 
 	for(int iRow =0; iRow < 9; iRow++){
@@ -68,7 +84,6 @@ int madeSudoku(){ // BaseMap 을 만드는 함수
 	return 1;
 }
 
-
 bool checkMap(int row, int col, int value){ // 전해받은 row,col 자리 배열에 value값이
 																						// 들어가도 괜찮은지 확인하는 함수
 	for(int i = 0; i<9 ; i++){
@@ -94,4 +109,33 @@ bool checkMap(int row, int col, int value){ // 전해받은 row,col 자리 배�
 		}
 	}
 	return true;
+}
+
+void copyMap(){
+	for (int i=0; i<9 ; i++){
+		for(int j=0; j<9 ; j++){
+			gameMap[i][j] = BaseMap[i][j];
+		}
+	}
+}
+
+void makeGame(){
+
+	int randRow, randCol;
+
+	for(int countHole = 0 ; countHole <40;){
+		randRow = rand()%9+1;
+		randCol = rand()%9+1;
+		if(gameMap[randRow][randCol]!=0)
+		{
+			gameMap[randRow][randCol] = 0;
+			countHole++;
+		}
+	}
+
+	for (int i=0; i<9 ; i++){
+		for(int j=0; j<9 ; j++){
+			playerMap[i][j] = gameMap[i][j];
+		}
+	}
 }
