@@ -2,17 +2,22 @@
 #include <stdlib.h>
 #include <time.h>
 #include <stdbool.h>
+#include <windows.h>
 
 int madeBaseSudoku();
 bool checkMap(int,int,int);
 void copyMap();
 void makeGame();
+void playingGame();
+void inputNumber(char, char, char);
 
 int BaseMap[9][9];
 int gameMap[9][9];
 int playerMap[9][9];
+int undoBuffer[5][3];
 
 bool flag = true;
+int undoCount = 0;
 
 int main() {
 	srand(time(NULL));
@@ -26,39 +31,44 @@ int main() {
 
 	for(int k=0; k<9 ;k++){ // 배열에 제대로 들어갔나 확인
 		for(int l=0; l<9 ;l++){
-		printf("%d ",BaseMap[k][l]);
+				printf("%d ",BaseMap[k][l]);
+			}
+			printf("\n");
+		}
+
+
+	printf("===========================\n");
+	while(1){
+	for(int k=0; k<9 ;k++){ // 배열에 제대로 들어갔나 확인
+		for(int l=0; l<9 ;l++){
+			if(playerMap[k][l]==0){
+				printf(". ");
+			}
+			else{
+				printf("%d ",playerMap[k][l]);
+			}
 		}
 		printf("\n");
 	}
-printf("===========================\n");
-
-	for(int k=0; k<9 ;k++){ // 배열에 제대로 들어갔나 확인
-		for(int l=0; l<9 ;l++){
-		printf("%d ",playerMap[k][l]);
-		}
-		printf("\n");
+	printf("===========================\n");
+	playingGame();
+	system("cls");
 	}
   return 0;
 }
 
 int madeBaseSudoku(){ // BaseMap 을 만드는 함수
-//printf("<5>iRow = %d, iCol= %d ,tempValue = %d\n",iRow,iCol,tempValue);
-
 	for(int iRow =0; iRow < 9; iRow++){
-	//	printf("iRow= %d \n", iRow );
 		for (int iCol = 0; iCol < 9; iCol++) {
-		//	printf("irow = %d iCol= %d \n", iRow,iCol);
 			if(BaseMap[iRow][iCol]==0)
 			{
 
 				for(int temp = 1; temp < 10; temp++){
 					if(checkMap(iRow,iCol,temp) == true){
 						flag = false;
-					//	printf("111111111111111111111111111111111111111111111\n");
 						break;
 					}
 					if(temp==9)	{
-						//printf("2222222222222222222222222222222222222222222222\n");
 						flag = true;
 						for(int resetNum_A = 0; resetNum_A<9 ; resetNum_A++){
 							for(int resetNum_B = 0; resetNum_B<9; resetNum_B++){
@@ -68,12 +78,9 @@ int madeBaseSudoku(){ // BaseMap 을 만드는 함수
 						return 0;
 						}
 				}
-				//printf("3333333333333333333333333333333333333333333333\n");
 				int tempValue = rand()%9 +1;
-			//	printf("irow = %d iCol= %d tempValue = %d \n", iRow,iCol,tempValue);
 				if(checkMap(iRow,iCol,tempValue) == true){
 					BaseMap[iRow][iCol] = tempValue;
-				//	printf("=====================BaseMap[%d][%d] = %d\n",iRow,iCol,BaseMap[iRow][iCol] );
 				}
 				else{
 					iCol--;
@@ -138,4 +145,58 @@ void makeGame(){
 			playerMap[i][j] = gameMap[i][j];
 		}
 	}
+}
+
+void playingGame(){
+
+
+	char input[5];
+	gets(input);
+
+	printf("INPUT > ");
+
+	if(input[0] > 48 && input[0] <= 57){
+		inputNumber(input[0],input[2],input[4]);
+		//printf("123\n");
+	}
+	else if (input[0] == 'v' ||input[0] == 'V') {
+
+	}
+	else if (input[0] == 'i' ||input[0] == 'I') {
+		printf("ii\n");
+	}
+	else if (input[0] == 'a' ||input[0] == 'A') {
+		printf("aa\n");
+	}
+	else if (input[0] == 'u' ||input[0] == 'U') {
+		printf("u\n");
+	}
+	else if (input[0] == 'n' ||input[0] == 'N') {
+		printf("nn\n");
+	}
+	else if (input[0] == 'r' ||input[0] == 'R') {
+		printf("rr\n");
+	}
+	else if (input[0] == 'h' ||input[0] == 'H') {
+		printf("hh\n");
+	}
+	else if (input[0] == 'q' ||input[0] == 'Q') {
+		printf("qq\n");
+	}
+	else{
+		printf("wrong\n");
+	}
+
+}
+
+void inputNumber(char row, char col, char value){
+	//printf("row : %d col :%d value: %d\n",row, col, value);
+	if(playerMap[row-49][col-49]==0){
+		playerMap[row-49][col-49]=value-48;
+
+	}
+	else{
+		printf("Wrong input!\n");
+	}
+
 }
