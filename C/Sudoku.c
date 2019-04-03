@@ -1,11 +1,12 @@
-#include <stdio.h>
+#include <stdio.h>										// 포인터를 사용하지 않고 만들기
 #include <stdlib.h>
 #include <time.h>
 #include <stdbool.h>
 #include <windows.h>
 
 int madeBaseSudoku();
-bool checkMap(int,int,int);
+bool checkBaseMap(int,int,int);
+bool checkplayerMap(int,int,int);
 void copyMap();
 void makeGame();
 void playingGame();
@@ -66,7 +67,7 @@ int madeBaseSudoku(){ // BaseMap 을 만드는 함수
 			if(BaseMap[iRow][iCol]==0)
 			{
 				for(int temp = 1; temp < 10; temp++){
-					if(checkMap(iRow,iCol,temp) == true){
+					if(checkBaseMap(iRow,iCol,temp) == true){
 						flag = false;
 						break;
 					}
@@ -81,7 +82,7 @@ int madeBaseSudoku(){ // BaseMap 을 만드는 함수
 						}
 				}
 				int tempValue = rand()%9 +1;
-				if(checkMap(iRow,iCol,tempValue) == true){
+				if(checkBaseMap(iRow,iCol,tempValue) == true){
 					BaseMap[iRow][iCol] = tempValue;
 				}
 				else{
@@ -93,17 +94,17 @@ int madeBaseSudoku(){ // BaseMap 을 만드는 함수
 	return 1;
 }
 
-bool checkMap(int row, int col, int value){ // 전해받은 row,col 자리 배열에 value값이
+bool checkBaseMap(int row, int col, int value){ // 전해받은 row,col 자리 배열에 value값이
 																						// 들어가도 괜찮은지 확인하는 함수
 	for(int i = 0; i<9 ; i++){
 		if(BaseMap[row][i] == value){
-		//	printf("BaseMap[row(%d)][i(%d)] == value(%d)\n",row,i,value);
+			//printf("BaseMap[row(%d)][i(%d)] == value(%d)\n",row,i,value);
 			return false;
 		}
 	}
 	for(int j = 0; j<9 ; j++){
 		if(BaseMap[j][col] == value){
-		//	printf("BaseMap[j(%d)][col(%d)] == value(%d)\n",j,col,value);
+			//printf("BaseMap[j(%d)][col(%d)] == value(%d)\n",j,col,value);
 			return false;
 		}
 	}
@@ -112,7 +113,34 @@ bool checkMap(int row, int col, int value){ // 전해받은 row,col 자리 배�
 	for(int x = 0; x<3 ; x++){
 		for(int y = 0; y<3 ; y++){
 			if(BaseMap[stdRow+x][stdCol+y]==value){
-			//	printf("BaseMap[stdRow+x(%d)][stdCol+y(%d)] == value(%d)\n",stdRow+x,stdCol+y,value);
+				printf("BaseMap[stdRow+x(%d)][stdCol+y(%d)] == value(%d)\n",stdRow+x,stdCol+y,value);
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+bool checkPlayerMap(int row, int col, int value){ // 전해받은 row,col 자리 배열에 value값이
+																						// 들어가도 괜찮은지 확인하는 함수
+	for(int i = 0; i<9 ; i++){
+		if(playerMap[row][i] == value){
+			//printf("BaseMap[row(%d)][i(%d)] == value(%d)\n",row,i,value);
+			return false;
+		}
+	}
+	for(int j = 0; j<9 ; j++){
+		if(playerMap[j][col] == value){
+			//printf("BaseMap[j(%d)][col(%d)] == value(%d)\n",j,col,value);
+			return false;
+		}
+	}
+	int stdRow = (row/3)*3;
+	int stdCol = (col/3)*3;
+	for(int x = 0; x<3 ; x++){
+		for(int y = 0; y<3 ; y++){
+			if(playerMap[stdRow+x][stdCol+y]==value){
+				printf("BaseMap[stdRow+x(%d)][stdCol+y(%d)] == value(%d)\n",stdRow+x,stdCol+y,value);
 				return false;
 			}
 		}
@@ -156,17 +184,29 @@ void playingGame(){
 	printf("INPUT> ");
 	gets(input);
 
+	for (int k = 0; k < 5; k++) {
+		printf("'%c'",input[k]);
+	}
+	printf("\n");
+
 	if(input[0] >= 48 && input[0] <= 57){
 		inputNumber(input[0],input[2],input[4]);
 		//printf("123\n");
 	}
 	else if (input[0] == 'v' ||input[0] == 'V') {
+		int temp;
+
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < 9; j++) {
 				if(gameMap[i][j]!=playerMap[i][j]){
-					if(checkMap(i,j,playerMap[i][j])==false){
-						printf("(%d,%d) is wrong answer\n",i+1,j+1);
+					temp = playerMap[i][j];
+					playerMap[i][j] = 0;
+					if(checkPlayerMap(i,j,temp)==false){
+							playerMap[i][j] = temp;
+							printf("(%d,%d) is wrong answer\n",i+1,j+1);
+						return ;
 					}
+					playerMap[i][j] = temp;
 				}
 			}
 		}
@@ -202,9 +242,8 @@ void playingGame(){
 
 void inputNumber(char row, char col, char value){
 	//printf("row : %d col :%d value: %d\n",row, col, value);
-	if(playerMap[row-49][col-49]==0){
+	if(playerMap[row-49][col-49]==0 || gameMap[row-49][col-49] == 0){
 		playerMap[row-49][col-49]=value-48;
-
 	}
 	else{
 		printf("Wrong input!\n");
