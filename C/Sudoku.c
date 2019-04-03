@@ -11,27 +11,32 @@ void copyMap();
 void makeGame();
 void playingGame();
 void inputNumber(char, char, char);
+void inputMap();
 
 int BaseMap[9][9];  // 답지 스도쿠
 int gameMap[9][9];	// 구멍이 뚫려있는 복사본
 int playerMap[9][9];// 플레이어의 답안지
 int undoBuffer[5][3];
 
-bool flag = true;
-bool rsTrigger = true;
+bool mapMakeflag = true; // madeBaseSudoku 함수를 실행시켜주기 위한 트리거
+bool rsTrigger = true; // 리셋을 할때 필요한 트리거
+bool gameTrigger = true; // 게임을 진행하기 위한 트리거
 int undoCount = 0;
+clock_t start, end;
 
 int main() {
 	srand(time(NULL));
-	while(1){
-		while(flag){
-			madeBaseSudoku();// making Sudoku
+	while (gameTrigger){
+		while(rsTrigger){
+			while(mapMakeflag){
+				madeBaseSudoku();// making Sudoku
+			}
+			copyMap();
+			makeGame();
+			rsTrigger = false;
 		}
-		copyMap();
-		makeGame();
-		rsTrigger = false;
 
-		while(1){
+
 		for(int k=0; k<9 ;k++){ // 배열에 제대로 들어갔나 확인
 		for(int l=0; l<9 ;l++){
 				printf("%d ",BaseMap[k][l]);
@@ -52,13 +57,10 @@ int main() {
 	}
 		printf("===========================\n");
 		playingGame();
-		//system("cls");
-		}
-			break;
-	}
-	  return 0;
-}
 
+	}
+	return 0;
+}
 
 
 int madeBaseSudoku(){ // BaseMap 을 만드는 함수
@@ -68,11 +70,11 @@ int madeBaseSudoku(){ // BaseMap 을 만드는 함수
 			{
 				for(int temp = 1; temp < 10; temp++){
 					if(checkBaseMap(iRow,iCol,temp) == true){
-						flag = false;
+						mapMakeflag = false;
 						break;
 					}
 					if(temp==9)	{
-						flag = true;
+						mapMakeflag = true;
 						for(int resetNum_A = 0; resetNum_A<9 ; resetNum_A++){
 							for(int resetNum_B = 0; resetNum_B<9; resetNum_B++){
 								BaseMap[resetNum_A][resetNum_B]=0;
@@ -113,7 +115,7 @@ bool checkBaseMap(int row, int col, int value){ // 전해받은 row,col 자리 �
 	for(int x = 0; x<3 ; x++){
 		for(int y = 0; y<3 ; y++){
 			if(BaseMap[stdRow+x][stdCol+y]==value){
-				printf("BaseMap[stdRow+x(%d)][stdCol+y(%d)] == value(%d)\n",stdRow+x,stdCol+y,value);
+				//printf("BaseMap[stdRow+x(%d)][stdCol+y(%d)] == value(%d)\n",stdRow+x,stdCol+y,value);
 				return false;
 			}
 		}
@@ -140,7 +142,7 @@ bool checkPlayerMap(int row, int col, int value){ // 전해받은 row,col 자리
 	for(int x = 0; x<3 ; x++){
 		for(int y = 0; y<3 ; y++){
 			if(playerMap[stdRow+x][stdCol+y]==value){
-				printf("BaseMap[stdRow+x(%d)][stdCol+y(%d)] == value(%d)\n",stdRow+x,stdCol+y,value);
+				//printf("BaseMap[stdRow+x(%d)][stdCol+y(%d)] == value(%d)\n",stdRow+x,stdCol+y,value);
 				return false;
 			}
 		}
@@ -189,11 +191,11 @@ void playingGame(){
 	}
 	printf("\n");
 
-	if(input[0] >= 48 && input[0] <= 57){
+	if(input[0] >= 48 && input[0] <= 57){						// 행, 열 , 숫자 입력받음
 		inputNumber(input[0],input[2],input[4]);
 		//printf("123\n");
 	}
-	else if (input[0] == 'v' ||input[0] == 'V') {
+	else if (input[0] == 'v' ||input[0] == 'V') {   // 스도쿠 조건에 맞는지 확인
 		int temp;
 
 		for (int i = 0; i < 9; i++) {
@@ -203,7 +205,7 @@ void playingGame(){
 					playerMap[i][j] = 0;
 					if(checkPlayerMap(i,j,temp)==false){
 							playerMap[i][j] = temp;
-							printf("(%d,%d) is wrong answer\n",i+1,j+1);
+							printf("***(%d,%d) is wrong answer\n",i+1,j+1);
 						return ;
 					}
 					playerMap[i][j] = temp;
@@ -212,19 +214,32 @@ void playingGame(){
 		}
 	}
 	else if (input[0] == 'i' ||input[0] == 'I') {
-		//inputMap();
+		inputMap();
 		rsTrigger = true;
+		mapMakeflag = true;
 		printf("ii\n");
 	}
-	else if (input[0] == 'a' ||input[0] == 'A') {
+	else if (input[0] == 'a' ||input[0] == 'A') {		// 현 게임을 다시 시작함
+		for (int i = 0; i < 9; i++) {
+			for (int j = 0; j < 9; j++) {
+				playerMap[i][j]=gameMap[i][j];
+			}
+		}
 		printf("aa\n");
 	}
 	else if (input[0] == 'u' ||input[0] == 'U') {
 		printf("u\n");
 	}
 	else if (input[0] == 'n' ||input[0] == 'N') {
+		rsTrigger = true;
+		mapMakeflag = true;
+		for (int i = 0; i < 9; i++) {
+			for (int j = 0; j < 9; j++) {
+				BaseMap[i][j]=0;
+			}
+		}
 		printf("nn\n");
-	}
+	} // 새로운 게임을 만드는 함수
 	else if (input[0] == 'r' ||input[0] == 'R') {
 		printf("rr\n");
 	}
@@ -232,6 +247,7 @@ void playingGame(){
 		printf("hh\n");
 	}
 	else if (input[0] == 'q' ||input[0] == 'Q') {
+		gameTrigger = false;
 		printf("qq\n");
 	}
 	else{
@@ -252,24 +268,18 @@ void inputNumber(char row, char col, char value){
 }
 
 void inputMap(){
+	int count = 9;
+	int temp[9][9];
 
-	char temp[1][9];
-  printf("Please input puzzle > ");
-  for (int i = 0; i < 9; i++) {
-    scanf("%d",&temp[0][i]);
-  }
-
-  for (int j = 0; j< 9; j++) {
-    BaseMap[0][j] = temp[0][j];
-  }
-
-
-	for (int l = 0; l< 9; l++) {
-		printf("BaseMap[0][%d] = %d\n", l,BaseMap[0][l]);
+	for (int i = 0; i < count; i++) {
+		for (int j = 0; j < count; j++) {
+			scanf("%d",&temp[i][j]);
+		}
 	}
 
-	for (int k = 0; k < 9; k++) {
-		printf("temp[0][%d] = %d\n", k,temp[0][k]);
+	for (int k = 0; k < count; k++) {
+		for (int l = 0; l < count; l++) {
+			BaseMap[k][l] = temp[k][l];
+		}
 	}
-
 }
