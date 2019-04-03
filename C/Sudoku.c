@@ -7,25 +7,35 @@
 int madeBaseSudoku();
 bool checkBaseMap(int,int,int);
 bool checkplayerMap(int,int,int);
+bool checkGameEnd();
 void copyMap();
 void makeGame();
 void playingGame();
 void inputNumber(char, char, char);
 void inputMap();
+void printHelp();
 
 int BaseMap[9][9];  // 답지 스도쿠
 int gameMap[9][9];	// 구멍이 뚫려있는 복사본
 int playerMap[9][9];// 플레이어의 답안지
 int undoBuffer[5][3];
+double ranking[5];
 
 bool mapMakeflag = true; // madeBaseSudoku 함수를 실행시켜주기 위한 트리거
 bool rsTrigger = true; // 리셋을 할때 필요한 트리거
 bool gameTrigger = true; // 게임을 진행하기 위한 트리거
+bool quitTrigger = false;
 int undoCount = 0;
 clock_t start, end;
 
+int testTrigger = 1;
+double clearTime = 0;
+
 int main() {
 	srand(time(NULL));
+	quitTrigger = false;
+	//resetBaseMap();
+
 	while (gameTrigger){
 		while(rsTrigger){
 			while(mapMakeflag){
@@ -33,32 +43,41 @@ int main() {
 			}
 			copyMap();
 			makeGame();
+			start = clock();
 			rsTrigger = false;
 		}
-
-
+		testfunction();
 		for(int k=0; k<9 ;k++){ // 배열에 제대로 들어갔나 확인
-		for(int l=0; l<9 ;l++){
+			for(int l=0; l<9 ;l++){
 				printf("%d ",BaseMap[k][l]);
 			}
 			printf("\n");
 		}
 		printf("===========================\n");
 		for(int k=0; k<9 ;k++){ // 배열에 제대로 들어갔나 확인
-		for(int l=0; l<9 ;l++){
-			if(playerMap[k][l]==0){
-				printf(". ");
+			for(int l=0; l<9 ;l++){
+				if(playerMap[k][l]==0){
+					printf(". ");
+				}
+				else{
+					printf("%d ",playerMap[k][l]);
+				}
 			}
-			else{
-				printf("%d ",playerMap[k][l]);
-			}
+			printf("\n");
 		}
-		printf("\n");
-	}
 		printf("===========================\n");
-		playingGame();
 
+		playingGame();
+		gameTrigger=checkGameEnd();
 	}
+	if(!checkGameEnd()){
+		end = clock();
+		clearTime = (end-start);
+		sortRanking(clearTime);
+		printf("TIME: %.f\n",clearTime);
+	}
+	printf("The game is End.\n");
+
 	return 0;
 }
 
@@ -150,6 +169,28 @@ bool checkPlayerMap(int row, int col, int value){ // 전해받은 row,col 자리
 	return true;
 }
 
+bool checkGameEnd(){
+
+	int sum=0;
+	for (int i = 0; i < 9; i++) {
+		for (int j = 0; j < 9; j++) {
+			sum += playerMap[i][j];
+		}
+	}
+
+	if(sum == (45*9)){
+		for (int i= 0; i < 9; i++) {
+			for (int j= 0; j < 9; j++) {
+				if(playerMap[i][j]!=BaseMap[i][j]) {return true;}
+			}
+		}
+	}
+	else if(quitTrigger){return false;}
+	else{return true;}
+	return false;
+
+} //게임이 끝날 수 있으면 false를 리턴
+
 void copyMap(){
 	for (int i=0; i<9 ; i++){
 		for(int j=0; j<9 ; j++){
@@ -191,11 +232,11 @@ void playingGame(){
 	}
 	printf("\n");
 
-	if(input[0] >= 48 && input[0] <= 57){						// 행, 열 , 숫자 입력받음
+	if(input[0] >= 48 && input[0] <= 57){
 		inputNumber(input[0],input[2],input[4]);
 		//printf("123\n");
-	}
-	else if (input[0] == 'v' ||input[0] == 'V') {   // 스도쿠 조건에 맞는지 확인
+	} // 행, 열 , 숫자 입력받음
+	else if (input[0] == 'v' ||input[0] == 'V') {
 		int temp;
 
 		for (int i = 0; i < 9; i++) {
@@ -212,44 +253,40 @@ void playingGame(){
 				}
 			}
 		}
-	}
+	} // 스도쿠 조건에 맞는지 확인
 	else if (input[0] == 'i' ||input[0] == 'I') {
 		inputMap();
 		rsTrigger = true;
 		mapMakeflag = true;
 		printf("ii\n");
 	}
-	else if (input[0] == 'a' ||input[0] == 'A') {		// 현 게임을 다시 시작함
+	else if (input[0] == 'a' ||input[0] == 'A') {
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < 9; j++) {
 				playerMap[i][j]=gameMap[i][j];
 			}
 		}
 		printf("aa\n");
-	}
+	} // 현 게임을 다시 시작하는 기능
 	else if (input[0] == 'u' ||input[0] == 'U') {
 		printf("u\n");
 	}
 	else if (input[0] == 'n' ||input[0] == 'N') {
-		rsTrigger = true;
-		mapMakeflag = true;
-		for (int i = 0; i < 9; i++) {
-			for (int j = 0; j < 9; j++) {
-				BaseMap[i][j]=0;
-			}
-		}
+		resetBaseMap();
 		printf("nn\n");
-	} // 새로운 게임을 만드는 함수
+	} // 새로운 게임을 만드는 기능
 	else if (input[0] == 'r' ||input[0] == 'R') {
 		printf("rr\n");
 	}
 	else if (input[0] == 'h' ||input[0] == 'H') {
-		printf("hh\n");
-	}
+		printHelp();
+
+
+	} // 도움말 출력하는 기능
 	else if (input[0] == 'q' ||input[0] == 'Q') {
 		gameTrigger = false;
-		printf("qq\n");
-	}
+		quitTrigger = true;
+	} // 게임을 종료시키는 기능
 	else{
 		printf("wrong\n");
 	}
@@ -267,6 +304,20 @@ void inputNumber(char row, char col, char value){
 
 }
 
+void printHelp(){
+
+	printf("num1 num2 num3 - num1: row / num2: col/ num3: value\n");
+	printf("===================================================\n");
+	printf("A - Restart this game\n" );
+	printf("I - Input your own puzzle (ex) 1 2 3 0 0 0 4 5 6\n" );
+	printf("N - Start New Game\n" );
+	printf("R - Show Ranking\n" );
+	printf("U - Undo number (Maximum 5 times)\n" );
+	printf("V - Check wrong number (only 1 number)\n" );
+	printf("H - Show Help one more time\n" );
+
+}
+
 void inputMap(){
 	int count = 9;
 	int temp[9][9];
@@ -281,5 +332,37 @@ void inputMap(){
 		for (int l = 0; l < count; l++) {
 			BaseMap[k][l] = temp[k][l];
 		}
+	}
+}
+
+void testfunction(){ //testTrigger 이용
+
+		if(testTrigger ==1){
+		for (int i = 0; i < 9; i++) {
+			for (int j = 0; j < 9; j++) {
+				playerMap[i][j]=BaseMap[i][j];
+			}
+		}
+		playerMap[8][8]=0;
+	}
+	testTrigger++;
+}
+
+void resetBaseMap(){
+	rsTrigger = true;
+	mapMakeflag = true;
+	for (int i = 0; i < 9; i++) {
+		for (int j = 0; j < 9; j++) {
+			BaseMap[i][j]=0;
+		}
+	}
+}
+
+void sortRanking(double time){
+	if(ranking[4]==0){
+		ranking[4]=time;
+	}
+	else if(ranking[4] > time){
+		ranking[4] = time;
 	}
 }
