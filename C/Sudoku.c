@@ -25,6 +25,7 @@ bool mapMakeflag = true; // madeBaseSudoku 함수를 실행시켜주기 위한 �
 bool rsTrigger = true; // 리셋을 할때 필요한 트리거
 bool gameTrigger = true; // 게임을 진행하기 위한 트리거
 bool quitTrigger = false;
+bool replayGame = true;
 int undoCount = 0;
 clock_t start, end;
 
@@ -32,49 +33,74 @@ int testTrigger = 1;
 double clearTime = 0;
 
 int main() {
+	char replay;
 	srand(time(NULL));
 	quitTrigger = false;
-	//resetBaseMap();
+	replayGame = true;
 
-	while (gameTrigger){
-		while(rsTrigger){
-			while(mapMakeflag){
-				madeBaseSudoku();// making Sudoku
-			}
-			copyMap();
-			makeGame();
-			start = clock();
-			rsTrigger = false;
-		}
-		testfunction();
-		for(int k=0; k<9 ;k++){ // 배열에 제대로 들어갔나 확인
-			for(int l=0; l<9 ;l++){
-				printf("%d ",BaseMap[k][l]);
-			}
-			printf("\n");
-		}
-		printf("===========================\n");
-		for(int k=0; k<9 ;k++){ // 배열에 제대로 들어갔나 확인
-			for(int l=0; l<9 ;l++){
-				if(playerMap[k][l]==0){
-					printf(". ");
+	while(replayGame){
+		resetBaseMap();
+		testTrigger = 1;
+		while (gameTrigger){
+			while(rsTrigger){
+				while(mapMakeflag){
+					madeBaseSudoku();// making Sudoku
 				}
-				else{
-					printf("%d ",playerMap[k][l]);
-				}
+				copyMap();
+				makeGame();
+				start = clock();
+				rsTrigger = false;
 			}
-			printf("\n");
-		}
-		printf("===========================\n");
+			testfunction();
+			for(int k=0; k<9 ;k++){ // 배열에 제대로 들어갔나 확인
+				for(int l=0; l<9 ;l++){
+					printf("%d ",BaseMap[k][l]);
+				}
+				printf("\n");
+			}
+			printf("===========================\n");
+			for(int k=0; k<9 ;k++){ // 배열에 제대로 들어갔나 확인
+				for(int l=0; l<9 ;l++){
+					if(playerMap[k][l]==0){
+						printf(". ");
+					}
+					else{
+						printf("%d ",playerMap[k][l]);
+					}
+				}
+				printf("\n");
+			}
+			printf("===========================\n");
 
-		playingGame();
-		gameTrigger=checkGameEnd();
-	}
-	if(!checkGameEnd()){
-		end = clock();
-		clearTime = (end-start);
-		sortRanking(clearTime);
-		printf("TIME: %.f\n",clearTime);
+			playingGame();
+			gameTrigger=checkGameEnd();
+		}
+
+		if(!checkGameEnd()){
+			end = clock();
+			clearTime = (end-start);
+			sortRanking(clearTime);
+			printf("Clear TIME: %.f\n",clearTime/1000);
+		}
+		printf("Replay? (Y/N) >");
+
+		replay=getchar();
+		while(1){
+			if(replay =='y'|| replay == 'Y'){
+				replayGame = true;
+				gameTrigger = true;
+				rsTrigger = true;
+				mapMakeflag = true;
+				break;
+			}
+			else if(replay == 'n' || replay =='N'){
+				replayGame == false;
+				break;
+			}
+			else{
+				printf("Wrong input, please input (Y/N)\n");
+			}
+		}
 	}
 	printf("The game is End.\n");
 
@@ -276,8 +302,12 @@ void playingGame(){
 		printf("nn\n");
 	} // 새로운 게임을 만드는 기능
 	else if (input[0] == 'r' ||input[0] == 'R') {
+		printf("==========Ranking==========\n");
+		for (int i = 0; i < 5; i++) {
+			printf("%d. %.f sec \n",i+1,ranking[i]/1000);
+		}
 		printf("rr\n");
-	}
+	} // 랭킹을 출력하는 기능
 	else if (input[0] == 'h' ||input[0] == 'H') {
 		printHelp();
 
@@ -288,7 +318,7 @@ void playingGame(){
 		quitTrigger = true;
 	} // 게임을 종료시키는 기능
 	else{
-		printf("wrong\n");
+		system("cls");
 	}
 
 }
@@ -349,8 +379,6 @@ void testfunction(){ //testTrigger 이용
 }
 
 void resetBaseMap(){
-	rsTrigger = true;
-	mapMakeflag = true;
 	for (int i = 0; i < 9; i++) {
 		for (int j = 0; j < 9; j++) {
 			BaseMap[i][j]=0;
@@ -359,10 +387,38 @@ void resetBaseMap(){
 }
 
 void sortRanking(double time){
+	int key = 0;
+	double temp;
 	if(ranking[4]==0){
-		ranking[4]=time;
+		for(int i = 0 ; i<5; i ++){
+			if(ranking[i]==0){
+				key = i;
+				break;
+			}
+		}
+		ranking[key] = time;
+		for (int i = 0; i < key; i++) {
+			for (int j = i+1; j < key+1; j++) {
+				if(ranking[i] > ranking[j]){
+					temp = ranking[j];
+					ranking[j] = ranking[i];
+					ranking[i] = temp;
+				}
+			}
+		}
 	}
-	else if(ranking[4] > time){
-		ranking[4] = time;
+	else{
+		if(ranking[4]>time){
+			ranking[4] = time;
+			for (int i = 0; i < 4; i++) {
+				for (int j = i+1; j < 5; j++) {
+					if(ranking[i] > ranking[j]){
+						temp = ranking[j];
+						ranking[j] = ranking[i];
+						ranking[i] = temp;
+					}
+				}
+			}
+		}
 	}
 }
