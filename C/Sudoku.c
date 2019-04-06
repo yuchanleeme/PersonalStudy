@@ -14,6 +14,7 @@ void playingGame();
 void inputNumber(char, char, char);
 void inputMap();
 void printHelp();
+void undoGame();
 
 int BaseMap[9][9];  // 답지 스도쿠
 int gameMap[9][9];	// 구멍이 뚫려있는 복사본
@@ -244,6 +245,13 @@ void makeGame(){
 			playerMap[i][j] = gameMap[i][j];
 		}
 	}
+
+	for (int i = 0; i < 5; i++) {  //undoBuffer 초기화
+		for (int j = 0; j < 5; j++) {
+			undoBuffer[i][j] = 0;
+		}
+	}
+
 }
 
 void playingGame(){
@@ -295,6 +303,7 @@ void playingGame(){
 		printf("aa\n");
 	} // 현 게임을 다시 시작하는 기능
 	else if (input[0] == 'u' ||input[0] == 'U') {
+		undoGame();
 		printf("u\n");
 	}
 	else if (input[0] == 'n' ||input[0] == 'N') {
@@ -325,8 +334,24 @@ void playingGame(){
 
 void inputNumber(char row, char col, char value){
 	//printf("row : %d col :%d value: %d\n",row, col, value);
-	if(playerMap[row-49][col-49]==0 || gameMap[row-49][col-49] == 0){
+	if(playerMap[row-49][col-49]==0 || gameMap[row-49][col-49] == 0){	// 값 입력 받기
 		playerMap[row-49][col-49]=value-48;
+		if(undoCount<5){				//undobuffer에 저장하기
+			undoBuffer[undoCount][0]=row-49;
+			undoBuffer[undoCount][1]=col-49;
+			undoBuffer[undoCount][2]=value-48;
+			undoCount++;
+		}
+		else{
+			for (int i = 0; i < 4; i++) {
+				for (int j = 0; j < 3; j++) {
+					undoBuffer[i][j] =undoBuffer[i+1][j];
+				}
+			}
+			undoBuffer[4][0]=row-49;
+			undoBuffer[4][1]=col-49;
+			undoBuffer[4][2]=value-48;
+		}
 	}
 	else{
 		printf("Wrong input!\n");
@@ -421,4 +446,11 @@ void sortRanking(double time){
 			}
 		}
 	}
+}
+
+void undoGame(){
+
+	//playerMap[undoBuffer[undoCount-1][0]][undoBuffer[undoCount-1][1]] = 0;
+	undoCount--;
+
 }
