@@ -1,6 +1,8 @@
 #include <stdio.h>
 
 int main() {
+
+    //https://www.acmicpc.net/problem/1002
   int num;
   int x1,y1,r1,x2,y2,r2;
   int d;

@@ -1,6 +1,7 @@
 #include<stdio.h>
 
 int main(){
+  //https://www.acmicpc.net/problem/1005
 
   int T;
   int N,K; // 건물 개수, 건설순서규칙
