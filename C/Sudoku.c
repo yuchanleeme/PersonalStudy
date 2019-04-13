@@ -19,16 +19,16 @@ void undoGame();
 int BaseMap[9][9];  // 답지 스도쿠
 int gameMap[9][9];	// 구멍이 뚫려있는 복사본
 int playerMap[9][9];// 플레이어의 답안지
-int undoBuffer[5][3];
-double ranking[5];
+int undoBuffer[5][3]; // 되돌리기 저장 배열
+double ranking[5]; // 랭킹 저장 배열
 
 bool mapMakeflag = true; // madeBaseSudoku 함수를 실행시켜주기 위한 트리거
 bool rsTrigger = true; // 리셋을 할때 필요한 트리거
 bool gameTrigger = true; // 게임을 진행하기 위한 트리거
-bool quitTrigger = false;
-bool replayGame = true;
-int undoCount = 0;
-clock_t start, end;
+bool quitTrigger = false; // 게임 종료 트리거
+bool replayGame = true; // 게임 재시작 트리거
+int undoCount = 0; // 되돌리기 횟수 변수
+clock_t start, end; // 시간 체크 변수
 
 int testTrigger = 1;
 double clearTime = 0;
@@ -109,7 +109,7 @@ int main() {
 }
 
 
-int madeBaseSudoku(){ // BaseMap 을 만드는 함수
+int madeBaseSudoku(){
 	for(int iRow =0; iRow < 9; iRow++){
 		for (int iCol = 0; iCol < 9; iCol++) {
 			if(BaseMap[iRow][iCol]==0)
@@ -140,7 +140,7 @@ int madeBaseSudoku(){ // BaseMap 을 만드는 함수
 		}
 	}
 	return 1;
-}
+}// BaseMap 을 만드는 함수
 
 bool checkBaseMap(int row, int col, int value){ // 전해받은 row,col 자리 배열에 value값이
 																						// 들어가도 괜찮은지 확인하는 함수
@@ -215,7 +215,6 @@ bool checkGameEnd(){
 	else if(quitTrigger){return false;}
 	else{return true;}
 	return false;
-
 } //게임이 끝날 수 있으면 false를 리턴
 
 void copyMap(){
@@ -224,7 +223,7 @@ void copyMap(){
 			gameMap[i][j] = BaseMap[i][j];
 		}
 	}
-}
+} // 본 맵을 게임맵에 복사
 
 void makeGame(){
 
@@ -252,7 +251,7 @@ void makeGame(){
 		}
 	}
 
-}
+} // 랜덤으로 숫자 40개 뽑아서 0으로 바꾸기 (게임만들기)
 
 void playingGame(){
 
@@ -330,7 +329,7 @@ void playingGame(){
 		system("cls");
 	}
 
-}
+} // 게임 진행
 
 void inputNumber(char row, char col, char value){
 	//printf("row : %d col :%d value: %d\n",row, col, value);
@@ -357,7 +356,7 @@ void inputNumber(char row, char col, char value){
 		printf("Wrong input!\n");
 	}
 
-}
+} // 숫자 입력하기
 
 void printHelp(){
 
@@ -371,7 +370,7 @@ void printHelp(){
 	printf("V - Check wrong number (only 1 number)\n" );
 	printf("H - Show Help one more time\n" );
 
-}
+} // Help 출력하기
 
 void inputMap(){
 	int count = 9;
@@ -388,7 +387,7 @@ void inputMap(){
 			BaseMap[k][l] = temp[k][l];
 		}
 	}
-}
+} // 'I' 기능 사용 위해 맵 입력하기
 
 void testfunction(){ //testTrigger 이용
 
@@ -409,7 +408,7 @@ void resetBaseMap(){
 			BaseMap[i][j]=0;
 		}
 	}
-}
+} // BaseMap 리셋하기
 
 void sortRanking(double time){
 	int key = 0;
@@ -446,7 +445,7 @@ void sortRanking(double time){
 			}
 		}
 	}
-}
+} // ranking 정렬하기
 
 void undoGame(){
 
