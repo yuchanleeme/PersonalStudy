@@ -319,12 +319,15 @@ def encoding_sentence(english_sentence):
     # 조건에 따라 변환되어야 할 결과를 result 변수에 할당 또는 필요에 따라 자유로운 수정
     result = ""
     upper_sentence = get_cleaned_english_sentence(english_sentence).upper()
+    split_sentence = upper_sentence.split()
+    user_sentence = " ".join(split_sentence)
 
-    for data in upper_sentence :
+    for data in user_sentence :
         if data == ' ':
-            result = result + '  '
+            result = result + ' '
         else:
             result = result + encoding_character(data) + ' '
+
 
     result = result.strip()
 
@@ -355,16 +358,4 @@ def main():
     print("Morse Code Program Finished!!")
 
 if __name__ == "__main__":
-    #main()
-    print(is_validated_english_sentence(".!."))
-        #     False
-    #is_validated_english_sentence("")
-        #     True
-    #is_validated_english_sentence("")
-        #     False
-    #is_validated_english_sentence("!.!")
-        #     False
-    #is_validated_english_sentence("kkkkk... ^^;")
-        #     False
-    #is_validated_english_sentence("This is Gachon University.")
-        #     True
+    main()
