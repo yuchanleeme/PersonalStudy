@@ -3,17 +3,7 @@
 
 def vector_size_check(*vector_variables):
 
-    check_set = set([])
-
-    for i in vector_variables:
-        check_set.add(len(i))
-
-    if len(check_set) == 1 :
-        result = True
-    else :
-        result = False
-
-    return result
+    return len(set([len(value) for value in vector_variables])) == 1
 
 
 def vector_addition(*vector_variables):
@@ -25,17 +15,7 @@ def vector_subtraction(*vector_variables):
     if not vector_size_check(*vector_variables):
         raise ArithmeticError
 
-    result = []
-    print(vector_variables,"123123213231")
-    for i in zip(*vector_variables):
-        for j in range(len(i)):
-            if j == 0 :
-                temp = i[j]
-            else:
-                temp = temp - i[j]
-        result.append(temp)
-
-    return result
+    return [2*row[0]-sum(row) for row in zip(*vector_variables)]
 
 
 def scalar_vector_product(alpha, vector_variable):
@@ -45,30 +25,24 @@ def scalar_vector_product(alpha, vector_variable):
 
 def matrix_size_check(*matrix_variables):
 
-    check_set = set([])
-
-    for i in matrix_variables:
-        check_set.add(len(i))
-
-    if len(check_set) == 1 :
-        result = True
-    else :
-        result = False
-
-    return result
+    return len(set([len(matrix) for matrix in matrix_variables])) == 1
 
 
 def is_matrix_equal(*matrix_variables):
 
-    result = True
+    # <크기가 같지 않아도 정상 판단 가능>
+    # result = True
+    #
+    # temp = [[len(set(j))for j in zip(*i)] for i in zip(*matrix_variables)]
+    # for data_1 in zip(*temp):
+    #     for data_2 in data_1:
+    #         if (data_2) != 1:
+    #             result = False
+    # return result
 
-    temp = [[len(set(j))for j in zip(*i)] for i in zip(*matrix_variables)]
-    for data_1 in zip(*temp):
-        for data_2 in data_1:
-            if (data_2) != 1:
-                result = False
-
-    return result
+    return set([len(set([len(set(col)) for col in zip(*row)])) for row in zip(*matrix_variables)]) == {1}
+    # matrix의 크기가 같다는 가정하에는 pythonic code 작성 가능
+    # 그 이외에 사항은 좀 더 공부 후에 수정예정
 
 
 def matrix_addition(*matrix_variables):
