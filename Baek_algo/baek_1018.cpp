@@ -3,28 +3,14 @@
 using namespace std;
 
 int main(){
-<<<<<<< HEAD
-<<<<<<< HEAD
   //https://www.acmicpc.net/problem/1018
-=======
->>>>>>> be2e0963139d04063392185fa7c428edab4a1952
-=======
->>>>>>> be2e0963139d04063392185fa7c428edab4a1952
   char checking_white[8][8];
   char checking_black[8][8];
 
   int N,M;
-<<<<<<< HEAD
-<<<<<<< HEAD
   int count_b = 0;
   int count_w = 0;
   int count_res = 100;
-=======
-
->>>>>>> be2e0963139d04063392185fa7c428edab4a1952
-=======
-
->>>>>>> be2e0963139d04063392185fa7c428edab4a1952
 
   for (int i = 0 ; i < 8 ; i++){
     for (int j = 0; j < 8 ; j++){
@@ -51,22 +37,12 @@ int main(){
   cin >> N >> M;
 
   char input_map[N][M];
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-  char
->>>>>>> be2e0963139d04063392185fa7c428edab4a1952
-=======
-  char
->>>>>>> be2e0963139d04063392185fa7c428edab4a1952
 
   for(int i = 0; i<N ; i++){ // 맵 입력
      for(int j = 0; j<M; j++){
       cin >> input_map[i][j];
      }
    }
-<<<<<<< HEAD
-<<<<<<< HEAD
   for(int i = 0; i < N-7; i++){
      for (int j = 0; j < M-7; j++) {
 
@@ -94,21 +70,5 @@ int main(){
 
   cout<<count_res<<endl;
 
-=======
-=======
->>>>>>> be2e0963139d04063392185fa7c428edab4a1952
-
-  for()
-
-  for(int i = 0; i<N ; i++){
-       for(int j = 0; j<M; j++){
-         cout<<input_map[i][j]<<" ";
-       }
-       cout<<endl;
-  }
-<<<<<<< HEAD
->>>>>>> be2e0963139d04063392185fa7c428edab4a1952
-=======
->>>>>>> be2e0963139d04063392185fa7c428edab4a1952
   return 0;
 }
