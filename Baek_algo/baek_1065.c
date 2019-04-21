@@ -8,7 +8,6 @@ int main(int argc, char const *argv[]) {
   scanf("%d", &number);
 
   for(int i = 1 ; i<=number ; i++){
-
     if(i > 0 && i < 100){count++;}
     else{
       a = i/100;
@@ -17,6 +16,7 @@ int main(int argc, char const *argv[]) {
       if((b-a) == (c-b)){count++;}
     }
   }
+
   printf("%d",count);
 
   return 0;
