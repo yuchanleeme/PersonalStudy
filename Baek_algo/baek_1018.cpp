@@ -4,7 +4,10 @@ using namespace std;
 
 int main(){
 <<<<<<< HEAD
+<<<<<<< HEAD
   //https://www.acmicpc.net/problem/1018
+=======
+>>>>>>> be2e0963139d04063392185fa7c428edab4a1952
 =======
 >>>>>>> be2e0963139d04063392185fa7c428edab4a1952
   char checking_white[8][8];
@@ -12,9 +15,13 @@ int main(){
 
   int N,M;
 <<<<<<< HEAD
+<<<<<<< HEAD
   int count_b = 0;
   int count_w = 0;
   int count_res = 100;
+=======
+
+>>>>>>> be2e0963139d04063392185fa7c428edab4a1952
 =======
 
 >>>>>>> be2e0963139d04063392185fa7c428edab4a1952
@@ -45,6 +52,10 @@ int main(){
 
   char input_map[N][M];
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+  char
+>>>>>>> be2e0963139d04063392185fa7c428edab4a1952
 =======
   char
 >>>>>>> be2e0963139d04063392185fa7c428edab4a1952
@@ -54,6 +65,7 @@ int main(){
       cin >> input_map[i][j];
      }
    }
+<<<<<<< HEAD
 <<<<<<< HEAD
   for(int i = 0; i < N-7; i++){
      for (int j = 0; j < M-7; j++) {
@@ -83,6 +95,8 @@ int main(){
   cout<<count_res<<endl;
 
 =======
+=======
+>>>>>>> be2e0963139d04063392185fa7c428edab4a1952
 
   for()
 
@@ -92,6 +106,9 @@ int main(){
        }
        cout<<endl;
   }
+<<<<<<< HEAD
+>>>>>>> be2e0963139d04063392185fa7c428edab4a1952
+=======
 >>>>>>> be2e0963139d04063392185fa7c428edab4a1952
   return 0;
 }
