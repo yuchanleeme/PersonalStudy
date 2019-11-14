@@ -1,10 +1,12 @@
 #include <iostream>
 #include <vector>
 using namespace std;
-const int INF = 2100000000;
+// 알고리즘 3.6절, 3.7절
 
+const int INF = 2100000000;
 vector<vector<int> > p;
 
+// 행렬 곱 최적의 순서 출력 (3.7)
 void order (int i, int j){
 
   if(i == j) cout << "A" << i;
@@ -17,6 +19,7 @@ void order (int i, int j){
   }
 }
 
+// 연쇄 행렬 최소 곱셈 알고리즘 (3.6)
 int minmult(int n, const vector<int> d, vector<vector<int> > &p){
 
   int res;
@@ -65,6 +68,15 @@ int main(int argc, char const *argv[]) {
   // 연쇄 행렬 최소곱 계산
   int min_ans = minmult(N, mat_intfo, p);
   printf("\nMin Ans : %d\n", min_ans);
+
+  // P (최적의 순서를 구할 수 있는 이차원 배열) 출력
+  printf("\n===== P =====\n");
+  for (int i = 1; i <= N-1; i++) {
+    for (int j = 1; j <= N; j++) {
+      printf("%d ", p[i][j]);
+    }
+    printf("\n");
+  }
 
   // 최소곱의 최적 순서 출력
   printf("\nMin Optimal Order : ");
