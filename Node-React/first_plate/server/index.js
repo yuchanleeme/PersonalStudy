@@ -1,6 +1,5 @@
 const express = require('express')
 const app = express()
-const port = 5000
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser')
 const config = require('./config/key');
@@ -24,8 +23,12 @@ mongoose.connect(config.mongoURI,{
 
 app.get('/', (req, res) => res.send('Hello World! here'))
 
+app.get('/api/hello', (req, res)=>{
+  res.send("HI")
+})
+
 // post를 보내준다.
-app.post('/api/user/register', (req, res) => {
+app.post('/api/users/register', (req, res) => {
 
   // 회원 가입 할 때 필요한 정보들을 client에서 가져오면
   // 그것들을 데이터 베이스에 넣어준다.  
@@ -41,7 +44,8 @@ app.post('/api/user/register', (req, res) => {
 })
 
 // 로그인 라우터
-app.post('/api/user/login', (req, res) => {
+app.post('/api/users/login', (req, res) => {
+
   // 1. 요청된 이메일을 데이터베이스에 있는지 찾는다.
   User.findOne({ email: req.body.email }, (err, user) => {
     if(!user){
@@ -67,7 +71,7 @@ app.post('/api/user/login', (req, res) => {
   })
 })
 
-app.get('/api/user/auth', auth, (req, res) =>{
+app.get('/api/users/auth', auth, (req, res) =>{
   // 여기 까지 미들웨어를 통과해 왔다는 얘기는 Authentication이 True라는 말.
   res.status(200).json({
     _id: req.user._id,
@@ -82,7 +86,7 @@ app.get('/api/user/auth', auth, (req, res) =>{
 })
 
 // 로그 아웃
-app.get('/api/user/logout', auth, (req, res) => {
+app.get('/api/users/logout', auth, (req, res) => {
   User.findOneAndUpdate({_id: req.user._id},
     {token: ""}, (err, user) =>{
       if(err) return res.json({success: false, err})
@@ -92,4 +96,5 @@ app.get('/api/user/logout', auth, (req, res) => {
     })
 })
 
+const port = 5000
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
