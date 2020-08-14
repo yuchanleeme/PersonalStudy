@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { loginUser } from '../../../_actions/user_action'
-
+import { withRouter } from 'react-router-dom'
 function LoginPage(props) {
 
   const dispatch = useDispatch();
@@ -21,9 +21,6 @@ function LoginPage(props) {
   const onSubmitHandler = (event) =>{
     // 계속 새로고침 방지
     event.preventDefault();
-
-    console.log('Email', Email)
-    console.log('Password', Password)
     
     let body = {
       email: Email,
@@ -53,12 +50,15 @@ function LoginPage(props) {
         <input type="email" value={Email} onChange={onEmailHandler} />
         <label>Password</label>
         <input type="password" value={Password} onChange={onPasswordHandler} />
+        
+        <br />
         <button>
           Login
         </button>
       </form>
     </div>
+    
   )
 }
 
-export default LoginPage
+export default withRouter(LoginPage)
